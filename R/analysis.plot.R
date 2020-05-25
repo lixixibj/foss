@@ -1,7 +1,8 @@
-#begin to plot
-#1. decomposition plot (it is completed by other codes)
-#2.ETS components or arima components
-#projection from 'A''N''A'-------1,1.5,2
+
+#' project char to number for ets method
+#' @param components model components
+#' @return char
+#' @export
 project.char.to.number.for.ets.method<-function(components){
   comps.number=rep(0,1,3)
   # Error term
@@ -35,8 +36,14 @@ project.char.to.number.for.ets.method<-function(components){
   #comps.char[AL,3] <- components[3]
   return(comps.number)
 }
-#plot ets components for one time series
-plot.ets.components.for.one.ts<-function(ts.index,ts.type,intermediate.results){
+#' plot ets components for one ts
+#' @param ts.index time series index
+#' @param ts.type 'M'or'Q'
+#' @param intermediate.results intermediate.results
+#' @importFrom RColorBrewer brewer.pal
+#' @return char
+#' @export
+plot_ets_components_for_one_ts<-function(ts.index,ts.type,intermediate.results){
   
   if(ts.type=='Q'){
     all.models=intermediate.results[[ts.index]]$all.models
@@ -66,7 +73,7 @@ plot.ets.components.for.one.ts<-function(ts.index,ts.type,intermediate.results){
     #get
     
     #begin to plot
-    image(1:16, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
+    image(1:16, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=RColorBrewer::brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
           ylab="Components", xlab="Seasons", main='ETS Components',breaks=c(-1,0,1,1.5,2,2.5),cex.lab=1.3,cex.main=1.3)
     axis(2, at=1:3, labels=list("Error","Trend","Season","Xreg")[(3+0):1])
     axis(1, at=1:16,labels = list('Q1','Q2','Q3','Q4',
@@ -115,7 +122,7 @@ plot.ets.components.for.one.ts<-function(ts.index,ts.type,intermediate.results){
       #get
       
       #begin to plot
-      image(1:144, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
+      image(1:144, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=RColorBrewer::brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
             ylab="Components", xlab="Seasons", main='ETS Components',breaks=c(-1,0,1,1.5,2,2.5),cex.lab=1.3,cex.main=1.3)
       axis(2, at=1:3, labels=list("Error","Trend","Season","Xreg")[(3+0):1])
       axis(1, at=1:144,,cex.axis=0.75)
@@ -138,8 +145,13 @@ plot.ets.components.for.one.ts<-function(ts.index,ts.type,intermediate.results){
   }
 
 
-#plot ets components for one time series
-plot.ets.components<-function(ts.type,forecast.results){
+#' plot ets components updated version
+#' @param ts.type 'M'or'Q'
+#' @param forecast.results intermediate.results
+#' @return plot an figure
+#' @importFrom RColorBrewer brewer.pal
+#' @export
+plot_ets_components<-function(ts.type,forecast.results){
   
   if(ts.type=='Q'){
     all.models=forecast.results$all.models
@@ -169,7 +181,7 @@ plot.ets.components<-function(ts.type,forecast.results){
     #get
     
     #begin to plot
-    image(1:16, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
+    image(1:16, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=RColorBrewer::brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
           ylab="Components", xlab="Seasons", main='ETS Components',breaks=c(-1,0,1,1.5,2,2.5),cex.lab=1.3,cex.main=1.3)
     axis(2, at=1:3, labels=list("Error","Trend","Season","Xreg")[(3+0):1])
     axis(1, at=1:16,labels = list('Q1','Q2','Q3','Q4',
@@ -218,7 +230,7 @@ plot.ets.components<-function(ts.type,forecast.results){
       #get
       
       #begin to plot
-      image(1:144, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
+      image(1:144, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=RColorBrewer::brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
             ylab="Components", xlab="Seasons", main='ETS Components',breaks=c(-1,0,1,1.5,2,2.5),cex.lab=1.3,cex.main=1.3)
       axis(2, at=1:3, labels=list("Error","Trend","Season","Xreg")[(3+0):1])
       axis(1, at=1:144,,cex.axis=0.75)
@@ -239,31 +251,16 @@ plot.ets.components<-function(ts.type,forecast.results){
       }
     }
 }
-#test
-#plot anlysis images for the result
-# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-# saving.path='intermediate.results/M3/M_ets/'
-# save.path=paste(saving.path,'intermediate.results.rda',sep = '')
-# load(file = save.path)
-# ts.index=200
-# ts.type='M'
-# image.path='test.svg'
-# svg(image.path,width=22,height=5)
-# plot.ets.components.for.one.ts(ts.index,ts.type,intermediate.results)
-# dev.off()
 
-#plot arima components for all sub-seasonal ts
-# library(Mcomp)
-# #
-# library(forecast)
-# model=auto.arima(M3[[646]]$x)
-# model.name=arimaorder(model)
-# model.name
-# model.temp=unname(model.name)
-# hhh=toString(model.name[1])
-
-
-plot.arima.components.for.one.ts<-function(ts.index,ts.type,intermediate.results){
+#' plot arima components for one ts
+#' @param ts.index time series index
+#' @param ts.type 'M'or'Q'
+#' @param intermediate.results intermediate.results
+#' @return plot an figure
+#' @importFrom forecast arimaorder
+#' @importFrom RColorBrewer brewer.pal
+#' @export
+plot_arima_components_for_one_ts<-function(ts.index,ts.type,intermediate.results){
   
   if(ts.type=='Q'){
     all.models=intermediate.results[[ts.index]]$all.models
@@ -274,7 +271,7 @@ plot.arima.components.for.one.ts<-function(ts.index,ts.type,intermediate.results
       #get ets model type
       model=all.models[[i]]
       #est.components=model$components
-      arima.components=arimaorder(model)
+      arima.components=forecast::arimaorder(model)
       # model.name=est.components[1:3]
       # mn <- nchar(est.method)
       # model.name <- substring(est.method, seq(1,mn,1), seq(1,mn,1))
@@ -295,7 +292,7 @@ plot.arima.components.for.one.ts<-function(ts.index,ts.type,intermediate.results
     #get
     
     #begin to plot
-    image(1:16, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
+    image(1:16, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=RColorBrewer::brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
           ylab="Parameters", xlab="Seasons", main='ARIMA p,d,q',breaks=c(-1,0,1,1.5,2,2.5))
     axis(2, at=1:3, labels=list("p","d","q","Xreg")[(3+0):1])
     axis(1, at=1:16,labels = list('Q1','Q2','Q3','Q4',
@@ -345,7 +342,7 @@ plot.arima.components.for.one.ts<-function(ts.index,ts.type,intermediate.results
     #get
     
     #begin to plot
-    image(1:144, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
+    image(1:144, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=RColorBrewer::brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
           ylab="Components", xlab="Seasons", main='ETS Components',breaks=c(-1,0,1,1.5,2,2.5))
     axis(2, at=1:3, labels=list("Error","Trend","Season","Xreg")[(3+0):1])
     axis(1, at=1:144)
@@ -369,8 +366,14 @@ plot.arima.components.for.one.ts<-function(ts.index,ts.type,intermediate.results
     }
 }
 
-
-plot.arima.components<-function(ts.type,forecast.results){
+#' plot arima components updated version
+#' @param ts.type 'M'or'Q'
+#' @param forecast.results intermediate.results
+#' @return plot an figure
+#' @importFrom forecast arimaorder
+#' @importFrom RColorBrewer brewer.pal
+#' @export
+plot_arima_components<-function(ts.type,forecast.results){
   
   if(ts.type=='Q'){
     all.models=forecast.results$all.models
@@ -381,7 +384,7 @@ plot.arima.components<-function(ts.type,forecast.results){
       #get ets model type
       model=all.models[[i]]
       #est.components=model$components
-      arima.components=arimaorder(model)
+      arima.components=forecast::arimaorder(model)
       # model.name=est.components[1:3]
       # mn <- nchar(est.method)
       # model.name <- substring(est.method, seq(1,mn,1), seq(1,mn,1))
@@ -402,7 +405,7 @@ plot.arima.components<-function(ts.type,forecast.results){
     #get
     
     #begin to plot
-    image(1:16, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
+    image(1:16, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=RColorBrewer::brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
           ylab="Parameters", xlab="Seasons", main='ARIMA p,d,q',breaks=c(-1,0,1,1.5,2,2.5))
     axis(2, at=1:3, labels=list("p","d","q","Xreg")[(3+0):1])
     axis(1, at=1:16,labels = list('Q1','Q2','Q3','Q4',
@@ -431,7 +434,7 @@ plot.arima.components<-function(ts.type,forecast.results){
     components.char<-array(0,c(3,144))
     for (i in 1:133) {
       #get ets model type
-      arima.components=arimaorder(model)
+      arima.components=forecast::arimaorder(model)
       # model.name=est.components[1:3]
       # mn <- nchar(est.method)
       # model.name <- substring(est.method, seq(1,mn,1), seq(1,mn,1))
@@ -452,7 +455,7 @@ plot.arima.components<-function(ts.type,forecast.results){
     #get
     
     #begin to plot
-    image(1:144, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
+    image(1:144, 1:3,matrix(t(components.array),ncol=3), axes=FALSE, col=RColorBrewer::brewer.pal(8,"PuBu")[2:6], #rev(heat.colors(5)),
           ylab="Parameters", xlab="Seasons", main='ARIMA p,d,q',breaks=c(-1,0,1,1.5,2,2.5))
     axis(2, at=1:3, labels=list("Error","Trend","Season","Xreg")[(3+0):1])
     axis(1, at=1:144)
@@ -475,155 +478,42 @@ plot.arima.components<-function(ts.type,forecast.results){
     
   }
 }
-
-plot.model.components<-function(ts.type,forecast.results,method.name){
+#' plot model components
+#'
+#' @param ts.type time series type 'M' or 'Q'
+#' @param forecast.results forecasting result list
+#' @param method.name 'ets' or 'arima'
+#' @return A matrix of the infile
+#' @export
+plot_model_components<-function(ts.type,forecast.results,method.name){
+  #reset your graphics devices
+  par(mfrow=c(1,1))
   if(method.name=='arima'){
-    plot.arima.components(ts.type,forecast.results)
+    plot_arima_components(ts.type,forecast.results)
   }else{
-    plot.ets.components(ts.type,forecast.results)
+    plot_ets_components(ts.type,forecast.results)
   }
 }
-# #test
-# ts.index=300
-# ts.type='Q'
-# intermediate.results=intermediate.results
-# plot.arima.components.for.one.ts(ts.index,ts.type,intermediate.results)
 
 
-#plot anlysis images for the result
-# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-# saving.path='intermediate.results/M3/M_ets/'
-# save.path=paste(saving.path,'intermediate.results.rda',sep = '')
-# load(file = save.path)
-# ts.index=200
-# ts.type='M'
-# image.path='test.svg'
-# svg(image.path,width=22,height=5)
-# plot.ets.components.for.one.ts(ts.index,ts.type,intermediate.results)
-# dev.off()
 
-#plot training data, testing and forecasting value
-
-
-#plot train and test time series
-
-plot.train.and.test.of.one.ts<-function(ts.index,ts.type,intermediate.results){
-  library(Mcomp)
+#' plot forecasts of new mutiple series
+#'
+#' @param ts.object time series,type: list
+#' @param ts.type time series type 'M' or 'Q'
+#' @param forecasts.result list
+#' @return plot an figure
+#' @importFrom ggplot2 ggplot aes geom_point geom_line ggtitle xlab ylab scale_color_discrete theme element_text scale_x_discrete
+#' @importFrom zoo as.yearqtr
+#' @importFrom reshape2 melt
+#' @importFrom directlabels geom_dl dl.combine
+#' @export
+plot_forecasts_of_new_mutiple_series<-function(ts.object,ts.type,forecasts.result){
   if(ts.type=='Q'){
-    j=ts.index
-    forecasts=intermediate.results[[j]]$point.forecasts
-    forecasts.of.single.method=intermediate.results[[j]]$original.point.forecasts[16,]
-    test1=M3[[j+645]]$xx
-    for (n in 1:length(test1)) {
-      test1[n]=forecasts.of.single.method[n]
-    }
-    train=M3[[j+645]]$x
-    test2=M3[[j+645]]$xx
-    for (n in 1:length(test2)) {
-      test2[n]=forecasts[n]
-    }
-    single.forecasts=test1
-    predicted.ts=test2
-    autoplot(M3[[j+645]]$x,series = 'Training data',xlab = "Time", ylab = "",main='Time series and forecast') + 
-      autolayer(M3[[j+645]]$xx,series = 'Testing data')+
-      autolayer(predicted.ts,series = 'Multiple forecast')+
-      autolayer(single.forecasts,series = 'Standard forecast')+theme(text = element_text(size=15))+scale_color_discrete(breaks=c('Training data','Testing data','Standard forecast','Multiple forecast'))
-      
-  }else if(ts.type=='M'){
-    j=ts.index
-    forecasts=intermediate.results[[j]]$point.forecasts
-    forecasts.of.single.method=intermediate.results[[j]]$original.point.forecasts[144,]
-    test1=M3[[j+1401]]$xx
-    for (n in 1:length(test1)) {
-      test1[n]=forecasts.of.single.method[n]
-    }
-    train=M3[[j+1401]]$x
-    test2=M3[[j+1401]]$xx
-    for (n in 1:length(test2)) {
-      test2[n]=forecasts[n]
-    }
-    single.forecasts=test1
-    predicted.ts=test2
-    autoplot(M3[[j+1401]]$x,series = 'Training data',xlab = "Time", ylab = "",main='Time series and forecast') + 
-      autolayer(M3[[j+1401]]$xx,series = 'Testing data')+
-      autolayer(predicted.ts,series = 'Multiple forecast')+
-      autolayer(single.forecasts,series = 'Standard forecast')+theme(text = element_text(size=15))+scale_color_discrete(breaks=c('Training data','Testing data','Standard forecast','Multiple forecast'))
-  }
-}
-#test
-
-
-
-
-#plot forecasts of each components(here just for M3 dataset)
-plot.forecasts.of.each.new.series<-function(ts.index,ts.type,intermediate.results){
-  library(Mcomp)
-  if(ts.type=='Q'){
-    library(zoo)
-    library(MASS)
-    library(reshape2)
-    library(reshape)
-    j=ts.index
-    seasons.name=c('Q1','Q2','Q3','Q4',
-                   'Q1,2','Q2,3','Q3,4','Q4,1',
-                   'Q1,2,3','Q2,3,4','Q3,4,1','Q4,1,2',
-                   'Q1,2,3,4')
-    original.point.forecasts=intermediate.results[[j]]$original.point.forecasts
-    original.point.forecasts=head(original.point.forecasts,-3)
-    original.point.forecasts.df=data.frame(original.point.forecasts)
-    names(original.point.forecasts.df)=as.yearqtr(time(M3[[j+645]]$xx))
-    #original.point.forecasts.df$season=LETTERS[seq( from = 1, to = 16 )]
-    original.point.forecasts.df$Seasons=seasons.name
-    df <- melt(original.point.forecasts.df, id = c('Seasons'))
-    # print(df)
-    # colnames(df)
-    #df$variable <- as.Date(df$variable, format = "%d-%b-%y")
-    #df remove na
-    df=df[complete.cases(df), ]
-    ggplot(df, aes(x =variable , y = value, group = Seasons,
-                   colour = Seasons)) + geom_point() + geom_line()+
-      ggtitle("Forecast of each sub-seasonal time series") +
-      xlab("Time") + ylab("")+scale_color_discrete(breaks=seasons.name)+theme(text = element_text(size=15))
-    
-  }else if(ts.type=='M'){
-    library(zoo)
-    library(MASS)
-    library(reshape2)
-    library(reshape)
-    j=ts.index
-    #seasons.name=LETTERS[seq( from = 1, to = 144 )]
-    seasons.name=c()
-    for (i in 1:133) {
-      seasons.name=c(seasons.name,toString(i))
-    }
-    original.point.forecasts=intermediate.results[[j]]$original.point.forecasts
-    original.point.forecasts=head(original.point.forecasts,-11)
-    original.point.forecasts.df=data.frame(original.point.forecasts)
-    names(original.point.forecasts.df)=as.yearmon(time(M3[[j+1401]]$xx))
-    #original.point.forecasts.df$season=LETTERS[seq( from = 1, to = 16 )]
-    original.point.forecasts.df$season=seasons.name
-    df <- melt(original.point.forecasts.df, id = c('season'))
-    # print(df)
-    # colnames(df)
-    #df$variable <- as.Date(df$variable, format = "%d-%b-%y")
-    #df remove na
-    df=df[complete.cases(df), ]
-    ggplot(df, aes(x =variable , y = value, group = season,
-                   colour = season)) + geom_point() + geom_line()+
-      ggtitle("Forecast of each sub-seasonal time series") +
-      xlab("Time") + ylab("")+scale_color_discrete(breaks=seasons.name)+theme(text = element_text(size=15))
-    
-  }
-
-}
-
-#plot forecasts of each components(here just for M3 dataset)
-plot.forecasts.of.new.mutiple.series<-function(ts.object,ts.type,forecasts.result){
-  if(ts.type=='Q'){
-    library(zoo)
-    library(MASS)
-    library(reshape2)
-    library(reshape)
+    # library(zoo)
+    # library(MASS)
+    # library(reshape2)
+    # library(reshape)
     seasons.name=c('Q1','Q2','Q3','Q4',
                    'Q1,2','Q2,3','Q3,4','Q4,1',
                    'Q1,2,3','Q2,3,4','Q3,4,1','Q4,1,2',
@@ -631,25 +521,37 @@ plot.forecasts.of.new.mutiple.series<-function(ts.object,ts.type,forecasts.resul
     original.point.forecasts=forecasts.result$original.point.forecasts
     original.point.forecasts=head(original.point.forecasts,-3)
     original.point.forecasts.df=data.frame(original.point.forecasts)
-    names(original.point.forecasts.df)=as.yearqtr(time(ts.object$xx))
+    names(original.point.forecasts.df)=zoo::as.yearqtr(time(ts.object$xx))
     #original.point.forecasts.df$season=LETTERS[seq( from = 1, to = 16 )]
     original.point.forecasts.df$Seasons=seasons.name
-    df <- melt(original.point.forecasts.df, id = c('Seasons'))
+    df <- reshape2::melt(original.point.forecasts.df, id = c('Seasons'))
     # print(df)
     # colnames(df)
     #df$variable <- as.Date(df$variable, format = "%d-%b-%y")
     #df remove na
     df=df[complete.cases(df), ]
-    ggplot(df, aes(x =variable , y = value, group = Seasons,
-                   colour = Seasons)) + geom_point() + geom_line()+
-      ggtitle("Forecast of each sub-seasonal time series") +
-      xlab("Time") + ylab("")+scale_color_discrete(breaks=seasons.name)+theme(text = element_text(size=15))
+    # ggplot2::ggplot(df, ggplot2::aes(x =variable , y = value, group = Seasons,
+    #                colour = Seasons)) + ggplot2::geom_point() + ggplot2::geom_line()+
+    #   ggplot2::ggtitle("Forecast of each sub-seasonal time series") +
+    #   ggplot2::xlab("Time") + ggplot2::ylab("")+
+    #   ggplot2::scale_color_discrete(breaks=seasons.name)+
+    #   ggplot2::theme(text = ggplot2::element_text(size=15))
+    ggplot2::ggplot(df, ggplot2::aes(x =variable , y = value, group = Seasons,colour = Seasons)) + 
+      ggplot2::geom_point() + 
+      ggplot2::geom_line()+
+      ggplot2::ggtitle("Forecast of each sub-seasonal time series") +
+      ggplot2::xlab("Time") + 
+      ggplot2::ylab("")+
+      ggplot2::scale_color_discrete(guide='none')+
+      ggplot2::scale_x_discrete(expand=c(0, 1)) +
+      directlabels::geom_dl(aes(label = Seasons), method = list(directlabels::dl.combine("first.points", "last.points"), cex = 0.8))+
+      ggplot2::theme(text = ggplot2::element_text(size=15))
     
   }else if(ts.type=='M'){
-    library(zoo)
-    library(MASS)
-    library(reshape2)
-    library(reshape)
+    # library(zoo)
+    # library(MASS)
+    # library(reshape2)
+    # library(reshape)
     #seasons.name=LETTERS[seq( from = 1, to = 144 )]
     seasons.name=c()
     for (i in 1:133) {
@@ -661,24 +563,42 @@ plot.forecasts.of.new.mutiple.series<-function(ts.object,ts.type,forecasts.resul
     names(original.point.forecasts.df)=as.yearmon(time(ts.object$xx))
     #original.point.forecasts.df$season=LETTERS[seq( from = 1, to = 16 )]
     original.point.forecasts.df$season=seasons.name
-    df <- melt(original.point.forecasts.df, id = c('season'))
+    df <- reshape2::melt(original.point.forecasts.df, id = c('season'))
     # print(df)
     # colnames(df)
     #df$variable <- as.Date(df$variable, format = "%d-%b-%y")
     #df remove na
     df=df[complete.cases(df), ]
-    ggplot(df, aes(x =variable , y = value, group = season,
-                   colour = season)) + geom_point() + geom_line()+
-      ggtitle("Forecast of each sub-seasonal time series") +
-      xlab("Time") + ylab("")+scale_color_discrete(breaks=seasons.name)+theme(text = element_text(size=15))
+    # ggplot2::ggplot(df, ggplot2::aes(x =variable , y = value, group = season,
+    #                colour = season)) + ggplot2::geom_point() + ggplot2::geom_line()+
+    #   ggplot2::ggtitle("Forecast of each sub-seasonal time series") +
+    #   ggplot2::xlab("Time") + ggplot2::ylab("")+
+    #   ggplot2::scale_color_discrete(breaks=seasons.name)+
+    #   ggplot2::theme(text = ggplot2::element_text(size=15))
+    ggplot2::ggplot(df, ggplot2::aes(x =variable , y = value, group = Seasons,colour = Seasons)) + 
+      ggplot2::geom_point() + 
+      ggplot2::geom_line()+
+      ggplot2::ggtitle("Forecast of each sub-seasonal time series") +
+      ggplot2::xlab("Time") + 
+      ggplot2::ylab("")+
+      ggplot2::scale_color_discrete(guide='none')+
+      ggplot2::scale_x_discrete(expand=c(0, 1)) +
+      directlabels::geom_dl(aes(label = Seasons), method = list(directlabels::dl.combine("first.points", "last.points"), cex = 0.8))+
+      ggplot2::theme(text = ggplot2::element_text(size=15))
     
   }
   
 }
 
 
-#plot for batch ts
-plot.forecasts.for.batch.ts<-function(ts.type,intermediate.results,saving.path){
+#' plot forecasts for batch.ts
+#'
+#' @param ts.type 'M' or 'Q'
+#' @param intermediate.results intermediate.results
+#' @param saving.path path for saving figures
+#' @return plot an figure
+#' @export
+plot_forecasts_for_batch_ts<-function(ts.type,intermediate.results,saving.path){
   if(ts.type=='Q'){
     for (i in 1:length(intermediate.results)) {
       p1=plot.forecasts.of.each.new.series(i,'Q',intermediate.results)
@@ -709,8 +629,15 @@ plot.forecasts.for.batch.ts<-function(ts.type,intermediate.results,saving.path){
 }
 
 
-#plot for batch ts
-plot.ets.components.for.batch.ts<-function(ts.type,intermediate.results,dataset,saving.path){
+#' plot ets components for batch ts
+#'
+#' @param ts.type 'M' or 'Q'
+#' @param intermediate.results intermediate.results
+#' @param dataset M3, M1, or M4
+#' @param saving.path path for saving figures
+#' @return plot an figure
+#' @export
+plot_ets_components_for_batch_ts<-function(ts.type,intermediate.results,dataset,saving.path){
   if(ts.type=='Q'){
     for (i in 1:length(intermediate.results)) {
       #add lable
@@ -719,7 +646,7 @@ plot.ets.components.for.batch.ts<-function(ts.type,intermediate.results,dataset,
       #image.path='/Users/xushengxiang/Desktop/lixixi/forecasting-with-multi-steps/code/examples-M3/quarterly-ets-forecasts/'
       image.path=paste(image.path,image.index,sep = '')
       svg(image.path,width=15,height=5)
-      plot.ets.components.for.one.ts(i,ts.type,intermediate.results)
+      plot_ets_components.for.one.ts(i,ts.type,intermediate.results)
       dev.off()
     }
   }else if(ts.type=='M'){
@@ -730,13 +657,20 @@ plot.ets.components.for.batch.ts<-function(ts.type,intermediate.results,dataset,
       #image.path='/Users/xushengxiang/Desktop/lixixi/forecasting-with-multi-steps/code/examples-M3/quarterly-ets-forecasts/'
       image.path=paste(image.path,image.index,sep = '')
       svg(image.path,width=22,height=5)
-      plot.ets.components.for.one.ts(i,ts.type,intermediate.results)
+      plot_ets_components.for.one.ts(i,ts.type,intermediate.results)
       dev.off()
     }
   }
 }
-#plot for batch ts
-plot.arima.components.for.batch.ts<-function(ts.type,intermediate.results,dataset,saving.path){
+#' plot arima components for batch ts
+#'
+#' @param ts.type 'M' or 'Q'
+#' @param intermediate.results intermediate.results
+#' @param dataset M3, M1, or M4
+#' @param saving.path path for saving figures
+#' @return plot an figure
+#' @export
+plot_arima_components_for_batch_ts<-function(ts.type,intermediate.results,dataset,saving.path){
   if(ts.type=='Q'){
     for (i in 1:length(intermediate.results)) {
       #add lable
@@ -745,40 +679,26 @@ plot.arima.components.for.batch.ts<-function(ts.type,intermediate.results,datase
       #image.path='/Users/xushengxiang/Desktop/lixixi/forecasting-with-multi-steps/code/examples-M3/quarterly-ets-forecasts/'
       image.path=paste(image.path,image.index,sep = '')
       svg(image.path,width=15,height=5)
-      plot.arima.components.for.one.ts(i,ts.type,intermediate.results)
+      plot_arima_components_for_one_ts(i,ts.type,intermediate.results)
       dev.off()
     }
   }
 }
-#test
-library(RColorBrewer)
-library(Mcomp)
 
-library(gridExtra)
-library(grid)
-library(ggplot2)
-library(lattice)
-#plot anlysis images for the result
-# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-# saving.path='intermediate.results/M3/M_ets/'
-# save.path=paste(saving.path,'intermediate.results.rda',sep = '')
-# load(file = save.path)
-
-
-
-
-
-#test code
-# ts.type='M'
-# dataset=M3
-# saving.path='/Users/xushengxiang/Desktop/lixixi/forecasting-with-multi-steps/code/examples-M3/monthly-ets-forecasts/'
-# plot.forecasts.for.batch.ts(ts.type,intermediate.results,saving.path)
-# saving.path.components='/Users/xushengxiang/Desktop/lixixi/forecasting-with-multi-steps/code/examples-M3/monthly-ets-components/'
-# plot.ets.components.for.batch.ts(ts.type,intermediate.results,dataset,saving.path.components)
-
-# ###test
-# ts.index=2
-# ts.type='Q'
-# plot.forecasts.of.each.new.series(ts.index,ts.type,intermediate.results)
-# plot.ets.components.for.one.ts(ts.index,ts.type,intermediate.results)
-
+#' plot time series and its forecast
+#'
+#' @param training.value ts object
+#' @param testing.value ts object
+#' @param forecast.results list
+#' @return plot an figure
+#' @importFrom ggplot2 autolayer autoplot
+#' @export
+plot_time_series_and_its_forecast<-function(training.value,testing.value,forecast.results){
+  point.forecasts=testing.value
+  for (i in 1:length(point.forecasts)) {
+    point.forecasts[i]=forecast.results$point.forecasts[i]
+  }
+  ggplot2::autoplot(training.value,series = 'Training data',xlab = "Time", ylab = "",main='Time series and forecast')+
+    ggplot2::autolayer(testing.value,series = 'Testing data')+
+    ggplot2::autolayer(point.forecasts,series = 'Multiple forecast')
+}

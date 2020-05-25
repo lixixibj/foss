@@ -2,10 +2,21 @@
 % Please edit documentation in R/plot.multiple.sub.seasonal.series.R
 \name{tile.name}
 \alias{tile.name}
-\title{+'}
+\title{title name}
 \usage{
 tile.name(begin.position, num.of.seasons, ts.type)
 }
-\description{
+\arguments{
+\item{begin.position}{begin.position}
+
+\item{num.of.seasons}{num.of.seasons}
+
+\item{ts.type}{ts.type}
+}
+\value{
+title name
 +'
+}
+\description{
+title name
 }
