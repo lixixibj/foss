@@ -759,4 +759,3 @@ batch_data_baseline_method<-function(dataset,data.index,ts.type,horizen,method.o
   print(mase.median.of.every.specific.horizen)
   print(msis.median.of.every.specific.horizen)
 }
-

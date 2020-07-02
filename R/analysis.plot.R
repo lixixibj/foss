@@ -560,10 +560,10 @@ plot_forecasts_of_new_mutiple_series<-function(ts.object,ts.type,forecasts.resul
     original.point.forecasts=forecasts.result$original.point.forecasts
     original.point.forecasts=head(original.point.forecasts,-11)
     original.point.forecasts.df=data.frame(original.point.forecasts)
-    names(original.point.forecasts.df)=as.yearmon(time(ts.object$xx))
+    names(original.point.forecasts.df)=zoo::as.yearmon(time(ts.object$xx))
     #original.point.forecasts.df$season=LETTERS[seq( from = 1, to = 16 )]
-    original.point.forecasts.df$season=seasons.name
-    df <- reshape2::melt(original.point.forecasts.df, id = c('season'))
+    original.point.forecasts.df$Seasons=seasons.name
+    df <- reshape2::melt(original.point.forecasts.df, id = c('Seasons'))
     # print(df)
     # colnames(df)
     #df$variable <- as.Date(df$variable, format = "%d-%b-%y")
