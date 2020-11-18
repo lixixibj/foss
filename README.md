@@ -1,16 +1,16 @@
-`fmss`
+`foss`
 ========
 Forecasting with multiple sub-seasonal series
 
-The R package `fmss` provides implementations of the uncertainty estimation of feature-based time series forecasts, see our [paper]() for the details.
+The R package `foss` provides implementations of the uncertainty estimation of feature-based time series forecasts, see our [paper]() for the details.
 
 Installation
 ------------
 
-You can install the package `fmss` from [GitHub Repository](https://github.com/lixixibj/fmss) with:
+You can install the package `foss` from [GitHub Repository](https://github.com/lixixibj/foss) with:
 
 ``` r
-devtools::install_github("lixixibj/fmss")
+devtools::install_github("lixixibj/foss")
 ```
 
 Usage
@@ -22,7 +22,7 @@ Usage
 
 
 ``` r
-library(fmss)
+library(foss)
 h=4
 y <- ts(c(123,39,78,52,110,100,200,46,19,12,12,23,24,24,25,70), start=c(2012,2),frequency=4)
 #library(forecast)
