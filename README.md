@@ -81,7 +81,7 @@ print(p4)
 References
 ----------
 
-- Li, X., Petropoulos, F, Kang, Y. (2020). Improving forecasting performance by integrating the forecasts of multiple time series with sub-seasonal patterns. [Working paper on arXiv]().
+- Li, X., Petropoulos, F, Kang, Y. (2020). Improving forecasting performance by integrating the forecasts of multiple time series with sub-seasonal patterns. [Working paper on arXiv](https://arxiv.org/abs/2101.00827).
 
 
 
