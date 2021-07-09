@@ -1,8 +1,8 @@
 `foss`
 ========
-Forecasting with multiple sub-seasonal series
+Improving forecasting by subsampling seasonal time series
 
-The R package `foss` provides implementations of the uncertainty estimation of feature-based time series forecasts, see our [paper]() for the details.
+The R package `foss` provides implementations of the forecasting by subsampling seasonal time series, see our [paper]() for the details.
 
 Installation
 ------------
