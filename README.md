@@ -2,7 +2,7 @@
 ========
 Improving forecasting by subsampling seasonal time series
 
-The R package `foss` provides implementations of the forecasting by subsampling seasonal time series, see our [paper]() for the details.
+The R package `foss` provides implementations of the forecasting by subsampling seasonal time series, see our [paper](https://arxiv.org/abs/2101.00827) for the details.
 
 Installation
 ------------
@@ -81,7 +81,7 @@ print(p4)
 References
 ----------
 
-- Li, X., Petropoulos, F, Kang, Y. (2020). Improving forecasting performance by integrating the forecasts of multiple time series with sub-seasonal patterns. [Working paper on arXiv](https://arxiv.org/abs/2101.00827).
+- Li, X., Petropoulos, F, Kang, Y. (2020). Improving forecasting by subsampling seasonal time series. [Working paper on arXiv](https://arxiv.org/abs/2101.00827).
 
 
 
